@@ -1,2 +1,36 @@
-# k8s
-k8s笔记
+kubeadm部署k8s
+一、安装要求：
+    1、2G内存，2个cpu，硬盘30G或者更多。
+    2、保证网络互通。
+    3、可以访问外网，保证后期的pull镜像使用。
+    4、禁止swap分区。
+二、准备环境：
+    1、关闭安全策略：
+         关闭防火墙：
+               [root@test]：systemctl   stop  firewalld
+               [root@test]：systemctl   disable  firewalld
+         关闭selinux：
+               [root@test]：sed -i 's/enforcing/disabled/'  /etc/selinux/config
+               [root@test]：setenforce 0
+         关闭swap分区：
+               [root@test]：swapoff -a       #临时
+               [root@test]：vim /etc/fatab   #永久
+     2、添加地址解析：
+         vim /etc/hosts
+               192.168.100.145  master
+               192.168.100.142  node1
+               192.168.100.144  node2
+     3、修改主机名：
+          hostnamectl  set-hostname    master
+          hostnamectl  set-hostname    node1
+          hostnamectl  set-hostname    node2
+     4、安装基本的工具：
+          yum -y install wget  vim  lrzsz
+三、所有节点安装docker/kubeadm/kubelet  （注意：所有节点）
+     1、安装docker
+           [root@test]：wget https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo -O /etc/yum.repos.d/docker-ce.repo
+           [root@test]：yum -y install docker-ce-18.06.1.ce-3.el7
+           [root@test]：systemctl enable docker && systemctl start docker
+           [root@test]：docker  --version （查看版本）
+
+
