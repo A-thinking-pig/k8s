@@ -66,8 +66,25 @@ kubeadm部署k8s
             [root@test]：vim  kube-flannel.yml
             访问将内容粘贴到上面文件中：
                   https://raw.githubusercontent.com/coreos/flannel/a70459be0084506e4ec919aa1c114638878db11b/Documentation/kube-flannel.yml
-            [root@test]：kubectl apply -f  kube-flannel.yml        （文件目录下执行或者绝对路径）
+            [root@test]：kubectl apply -f  kube-flannel.yml        #（文件目录下执行或者绝对路径）
+            [root@test]：kubectl get pods -n kube-system           #（查看状态是否为running）
+四、加入Kubernetes Node   在node节点操作
+      [root@test]：                                                #将复制保存的token执行
+      [root@test]：kubectl  get  node                              #查看node节点状态是否为Ready
+             NAME     STATUS   ROLES    AGE    VERSION
+             master   Ready    master   9m9s   v1.14.0
+             node1    Ready    <none>   87s    v1.14.0
+             node2    Ready    <none>   81s    v1.14.0
+五、在Kubernetes集群中创建一个pod，验证是否正常运行：
+      [root@test]：kubectl create deployment nginx --image=daocloud.io/library/nginx
+      [root@test]：kubectl expose deployment nginx --port=80 --type=NodePort                  #映射段端口
+      [root@test]：kubectl get pod,svc                                                        #查看状态是否为runnig
+      [root@test]：kubectl get pod,svc -o wide                                                #查看pod的详细信息，分配到那个节点
+访问地址：http://NodeIP:Port             #看到nginx初始页面代表成功
+      
+
             
+    
                    
                  
 
