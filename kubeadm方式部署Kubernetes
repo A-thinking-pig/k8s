@@ -51,5 +51,25 @@ kubeadm部署k8s
                 --image-repository registry.aliyuncs.com/google_containers \
                 --kubernetes-version v1.14.0 \
                 --service-cidr=10.1.0.0/16 \
-                --pod-network-cidr=10.244.0.0/16
-                
+                --pod-network-cidr=10.244.0.0/16    
+            将加载完后提示的token复制保存的一个文件中后面用得到  安装提示将配置做完
+            [root@test]：vim   token.txt
+                            kubeadm join 192.168.100.145:6443 --token vnq2ut.8972os24pgysikj8 \
+    --discovery-token-ca-cert-hash sha256:e5a627f557972a6b732213a1b2da6d96e7f55c98339c87ef68b363989e8a8a1c 
+            [root@test]：mkdir -p $HOME/.kube
+            [root@test]：cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+            [root@test]：chown $(id -u):$(id -g) $HOME/.kube/config
+            [root@test]：kubectl get nodes           #查看到master信息
+                              NAME     STATUS     ROLES    AGE     VERSION
+                              master   NotReady   master   5m20s   v1.14.0
+            安装Pod网络插件（CNI）
+            [root@test]：vim  kube-flannel.yml
+            访问将内容粘贴到上面文件中：
+                  https://raw.githubusercontent.com/coreos/flannel/a70459be0084506e4ec919aa1c114638878db11b/Documentation/kube-flannel.yml
+            [root@test]：kubectl apply -f  kube-flannel.yml        （文件目录下执行或者绝对路径）
+            
+                   
+                 
+
+                              
+                          
